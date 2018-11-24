@@ -1,0 +1,203 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 40vmin;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+body {
+  color: #1A535C;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+#Nav {
+  color: #1A535C;
+}
+
+.textc {
+  color: #1A535C !important;
+}
+
+.btn-custom{
+  color: #1A535C;
+  border-color: #1A535C;
+}
+
+.btn-custom:hover,
+.btn-custom:focus,
+.btn-custom:active {
+  background-color:#1A535C !important;
+  color: #4ECDC4 !importants;
+}
+
+.btn-custom:focus{
+  opacity:0.8;
+}
+
+#Content {
+  height: 1000px;
+}
+
+/** WelcomeViewAlt **/
+#content-description {
+width: 100% !important;
+background-color: #1A535C;
+max-width: 100%;
+
+-moz-box-shadow:    inset 0 0 10px #000000;
+   -webkit-box-shadow: inset 0 0 10px #000000;
+   box-shadow:         inset 0 0 10px #000000;
+}
+
+#content-description > .card-deck  > .mb-4 {
+  color: #ffffff;
+}
+
+.card-custom {
+background-color:#1A535C;
+padding: 20px;
+margin-top: 20px;
+border: 0;
+}
+
+h4 {
+  font-size: 40px !important;
+}
+
+.d-flex > h5 {
+  margin-left: 5px;
+}
+
+/** WelcomeView **/
+
+.lead {
+  font-size: 17px;
+}
+
+.pricing-header {
+  padding-top: 100px !important;
+  padding-bottom: 0px !important;
+}
+.pricing-header > .lead {
+  padding: 10px;
+  padding-bottom: 0px;
+}
+
+.welcome-background {
+}
+
+.welcome-background-img {
+  padding: 0;
+  margin: 0;
+  margin-top: -16px;
+  float:right;
+}
+
+.welcome-background-img-bottom {
+  width:300px;
+  margin-top: 100px;
+}
+
+.content-spacer {
+  margin-top: 5px;
+
+}
+
+.top-text {
+  margin-top:20px;
+}
+
+.mid-card {
+width: 100%;
+max-width: 620px;
+padding: 15px;
+margin: 0 auto;
+border: 0px solid #000000;
+-webkit-box-shadow: 10px 10px 22px -8px rgba(0,0,0,0.75);
+-moz-box-shadow: 10px 10px 22px -8px rgba(0,0,0,0.75);
+box-shadow: 10px 10px 22px -8px rgba(0,0,0,0.75);
+margin-top: 20px;
+}
+
+.referendum-text {
+  font-size: 24px !important;
+  text-decoration: underline;
+}
+
+a:hover > .referendum-text {
+  cursor:pointer;
+  opacity: 0.5;
+}
+
+/** Voting 1**/
+.voting-personal-info {
+  width: 100%;
+  max-width: 420px;
+  padding: 15px;
+  margin: 0 auto;
+}
+
+.voting-personal-info > ul {
+  font-size: 18px;
+  list-style-type: none;
+  text-align:left;
+  padding: 0;
+  width: 50%;
+  margin: 0 auto;
+  padding-left: 18px;
+}
+
+.voting-personal-info > li {
+}
+
+.voting-personal-buttons {
+  margin-top: 20px;
+  width: 100%;
+}
+
+.voting-personal-buttons > .btn-light {
+  border: 1px #1A535C solid;
+
+}
+.voting-personal-buttons > .btn-info {
+  width: 60%;
+  margin-left: 10px;
+
+}
+
+/**Footer**/
+footer {
+}
+
+/*#1A535C
+ #4ECDC4
+ #FF6B6B
+*/
