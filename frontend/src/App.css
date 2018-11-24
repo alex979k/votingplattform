@@ -38,6 +38,16 @@ body {
   margin: 0;
 }
 
+a {
+  cursor:pointer;
+}
+
+ul, li {
+  list-style-type: none;
+  padding:0;
+  margin:0;
+}
+
 #Nav {
   color: #1A535C;
 }
@@ -64,6 +74,11 @@ body {
 
 #Content {
   height: 1000px;
+}
+
+
+.profile-image {
+   margin-top: -5px;
 }
 
 /** WelcomeViewAlt **/
@@ -160,7 +175,7 @@ a:hover > .referendum-text {
 /** Voting 1**/
 .voting-personal-info {
   width: 100%;
-  max-width: 420px;
+  max-width: 820px;
   padding: 15px;
   margin: 0 auto;
 }
@@ -178,7 +193,7 @@ a:hover > .referendum-text {
 .voting-personal-info > li {
 }
 
-.voting-personal-buttons {
+.voting-personal-buttons{
   margin-top: 20px;
   width: 100%;
 }
@@ -187,10 +202,182 @@ a:hover > .referendum-text {
   border: 1px #1A535C solid;
 
 }
-.voting-personal-buttons > .btn-info {
+.voting-personal-buttons > .btn-info, .voting-final-confirm-buttons > .btn-danger {
   width: 60%;
   margin-left: 10px;
+}
 
+ .voting-final-confirm-buttons > .link {
+   margin-top: 10px;
+ }
+
+
+
+/**Yes/No Switch**/
+.cd-switch {
+  padding: 50px 0;
+  text-align: center;
+}
+
+.switchFilter {
+  width: 0;
+  display: inline-block;
+  background-color: #DB6576;
+  position: absolute;
+  left: 0;
+  opacity: 0;
+  top: 0;
+  bottom: 0;
+  z-index: -1;
+  -webkit-transition: all 0.4s cubic-bezier(0, 0, 0.25, 1);
+  -moz-transition: all 0.4s cubic-bezier(0, 0, 0.25, 1);
+  transition: all 0.4s cubic-bezier(0, 0, 0.25, 1);
+}
+
+.switch > label {
+  cursor: pointer;
+  text-transform: uppercase;
+  border: 1px solid #3D4349;
+  width: 85px;
+  padding: 10px 0;
+  text-align: center;
+  display: inline-block;
+  -webkit-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  transition: all 0.4s;
+  margin-right: 15px;
+  margin-bottom:0px !important;
+}
+
+.switch {
+  position: absolute;
+  display: inline-block;
+  left: 50%;
+  right: auto;
+  -webkit-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -o-transform: translateX(-50%);
+  transform: translateX(-50%);
+  z-index: 1;
+  margin: 0em 0;
+}
+.switch input[type="radio"] {
+  visibility: hidden;
+  position: absolute;
+  height: 100%;
+}
+.switch input[type="radio"]#yes:checked ~ label[for="yes"] {
+  color: white;
+  border: 1px solid #DB6576;
+}
+.switch input[type="radio"]#yes:checked ~ .switchFilter {
+  left: 0;
+  opacity: 1;
+  width: 87px;
+}
+.switch input[type="radio"]#no:checked ~ label[for="no"] {
+  color: white;
+  border: 1px solid #DB6576;
+}
+.switch input[type="radio"]#no:checked ~ .switchFilter {
+  left: 100px;
+  width: 87px;
+  opacity: 1;
+}
+
+.voting-final-confirm-buttons {
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 50px;
+}
+
+.voting-final-confirm-buttons > .textc {
+  text-align: center;
+  margin-top: 5px;
+}
+
+.voting-final-confirm-buttons > .btn-info {
+  text-align: center;
+  width: 80%;
+}
+
+/**css spinner**/
+.lds-circle {
+  margin-top: 20px;
+  display: inline-block;
+  transform: translateZ(1px);
+}
+.lds-circle > div {
+  display: inline-block;
+  width: 51px;
+  height: 51px;
+  margin: 6px;
+  border-radius: 50%;
+  background: #1A535C;
+  animation: lds-circle 2.4s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+@keyframes lds-circle {
+  0%, 100% {
+    animation-timing-function: cubic-bezier(0.5, 0, 1, 0.5);
+  }
+  0% {
+    transform: rotateY(0deg);
+  }
+  50% {
+    transform: rotateY(1800deg);
+    animation-timing-function: cubic-bezier(0, 0.5, 0.5, 1);
+  }
+  100% {
+    transform: rotateY(3600deg);
+  }
+}
+
+.loader-text-bold {
+  font-weight: bold;
+}
+
+.text-red {
+  color: #FF6B6B;
+}
+
+.text-red-link:hover {
+  color: #FF6B6B;
+  text-decoration-color:  #FF6B6B;
+}
+
+.results-left {
+  padding: 20px;
+  text-align: left;
+}
+
+.results-header-left {
+    font-weight:bold;
+}
+
+.results-text-left {
+  margin-top: 10px;
+  font-weight:bold;
+  font-size: 24px !important;
+}
+
+.results-text-left-mid {
+}
+
+.results-text-bottom {
+  margin-top: 40px;
+  text-align: left;
+  padding: 0px;
+}
+
+#results-graph{
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 10px;
+  width: 800px;
+  height: 800px;
+  background-color: #C7D9D9;
 }
 
 /**Footer**/

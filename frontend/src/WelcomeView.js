@@ -8,7 +8,7 @@ class WelcomeView extends Component {
       <div class="welcome-background">
       <img class="welcome-background-img" src="london.png" />
           <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-            <h4 class="display-4">Welcome to VoteXYZ Voting Platform</h4>
+            <h4 class="display-4">Welcome to VotingXYZ</h4>
             <p class="lead">
               You can vote and follow the results on this platform. Your vote will be totally anonymous. Before you vote, you might check how online voting system works here.</p>
           </div>

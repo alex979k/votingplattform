@@ -1,6 +1,23 @@
 import React, { Component } from 'react';
 
 class Nav extends Component {
+
+  constructor(props){
+    super(props)
+    this.state = {loggedIn: false}
+  }
+
+  fakeLogin(){
+    this.setState({loggedIn: true})
+  }
+
+  renderLogin(){
+    if(!this.props.loggedIn && !this.state.loggedIn){
+      return (<a class="btn btn-outline-primary btn-custom" onClick={this.fakeLogin.bind(this)} href="#">Login</a>)
+    } else {
+      return (<a href="#"><img class="profile-image" src="passportimage.jpg"  width="30"/></a>)
+    }
+  }
   render() {
     return (
       <div id="Nav">
@@ -10,7 +27,7 @@ class Nav extends Component {
             <a class="p-2 text-dark" href="#">How it works</a>
             <a class="p-2 text-dark" href="#">Referendum info</a>
           </nav>
-          <a class="btn btn-outline-primary btn-custom" href="#">Login</a>
+          {this.renderLogin()}
         </div>
       </div>
     );

@@ -17,10 +17,11 @@ class Voting1 extends Component {
             <li>City: <b>London</b> </li>
             <li>State: <b>London</b> </li>
           </ul>
-          <div class="voting-personal-buttons">
-            <button type="button" class="btn btn-light">Cancel</button>
-            <button type="button" class="btn btn-info" onClick={() => this.props.onClick(this.props.viewIndex)}>Confirm and Proceed</button>
-          </div>
+        </div>
+        <div class="voting-final-confirm-buttons">
+          <button type="button" class="btn btn-info" onClick={() => this.props.onClick(this.props.viewIndex)}>Confirm and Proceed</button>
+          <br />
+          <a href="#" class="link">Request Edit</a>
         </div>
       </div>
     );
