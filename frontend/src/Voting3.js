@@ -18,8 +18,9 @@ class Voting3 extends Component {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
     }
-    axios.post('http://localhost:9000/api', props.vote, {headers: headers})
+    axios.post('http://localhost:9000/api', 0)
       .then(function (response) {
+        console.log("HALLO");
         console.log(response);
         props.onClick(4)
       })
