@@ -22,16 +22,13 @@ const { execSync } = require( 'child_process' );
 const NUM_VALIDATORS=1;
 const MAX_RAND=10000
 const citizenKeysHash="QmQEf6CESiJQkRB3PdwDPshAzHc8QfdLDS63aFX8K9DsTt";
+const privKey="987654321"
 
 async function vote(v){
 	publicKey= await getElectionPublicKey();
 	//cyphertext=homoEncrypt(publicKey, v);
 	execSync( 'VEncrypt '+String(publicKey)+' '+String(v) + '| ipfs add -Q > fileHash.txt');
 	contractInvoke("vote", fs.readFileSync('fileHash.txt', 'utf8'));
-}
-
-function homoEncrypt(publicKey, payload, randomness){ //Fake
-	return JSON.stringify({pKey: publicKey, value: payload, decrypted: 0, rand: randomness})
 }
 
 async function getElectionPublicKey(){
@@ -69,30 +66,14 @@ function contractCall(op){
 			break;
 	}
 }
-
+		
 
 async function getElectionResults(){
-	votes= await getAllCyphertexts()
-	//web=getWebOfTust()
-	cKeys= await getCitizenKeys()
-	//filter votes - TODO: Improve by analysing the web of trust for weird patterns that indicate manipulation
-	votes=votes.filter((v)=>v.voter in cKeys)
-	votes.map((v)=>v.cypher).forEach((v, i)=>{
-		execSync('ipfs cat '+ v +" > "+i+".txt")
-	})
-	//compute result
-	encryptedResult= await homomorphicSum(votes.length)
-	result=await getDecryptedResult()
-	publicKey=await getElectionPublicKey();
-	/*if(!checkEncryption(encryptedResult, result, publicKey)){
-		throw 1;
-	}*/
-	return result;
 }
 
-async function homomorphicSum(len){ //Fake
-	execSync("cd crypto/cryptoscripts && ./sumEncrypted_x "+len+" > result_enc.txt");
-	return fs.readFileSync('result_encrypted.txt', 'utf8');
+async function homomorphicSumAndDecrypt(len){ //Fake
+	execSync("sumEncryptedValidator "+len+" > result_decr.txt");
+	return fs.readFileSync('result_decrypted.txt', 'utf8');
 }
 
 function checkEncryption(encrypted, decrypted, publicKey){ //Fake
@@ -121,6 +102,24 @@ async function getCitizenKeys(){ //retrieve from IPFS
 	return JSON.parse(fs.readFileSync('cKeys.json', 'utf8'));
 }
 
+async function decryptVotes(){
+	votes= await getAllCyphertexts()
+	//web=getWebOfTust()
+	cKeys= await getCitizenKeys()
+	//filter votes - TODO: Improve by analysing the web of trust for weird patterns that indicate manipulation
+	votes=votes.filter((v)=>v.voter in cKeys)
+	if(votes.length<cKeys.length*0.7){
+		return false;
+	}
+	votes.map((v)=>v.cypher).forEach((v, i)=>{
+		execSync('ipfs cat '+ v +" > "+i+".txt")
+	})
+	//compute result
+	result= await homomorphicSumAndDecrypt(votes.length)
+	contractInvoke("uploadDecrypted", result);
+	return result;
+}
+
 // SERVER
 
 const http = require('http');
@@ -128,7 +127,7 @@ const urlParse=require('url').parse;
 //const fs=require('fs');
 const body=require('body');
 
-const port = 9000;
+const port = 9001;
 
 var votes = [];
 
@@ -136,31 +135,9 @@ const server = http.createServer((req, res) => {
 	if(urlParse(req.url).pathname.startsWith("/api")){
 		switch(req.method){
 			case "GET":
-				res.end(JSON.stringify(getElectionResults()));
-				break;
-			case "POST":
-				body(req, (err, body) => {
-					vote(body);
-					//votes.push(JSON.parse(body));
-					res.end();
-				});
+				res.end(JSON.stringify(decryptVotes()));
 				break;
 		}
-	}else{
-		var path="./static"+urlParse(req.url).pathname; //HUGE security hole
-		path.replace(/\.\./, "");
-		if(path=="./static/"){
-			path="./static/index.html";
-		}
-		fs.access(path, (err)=>{
-			if(err){
-				res.statusCode = 404;
-				res.setHeader('Content-Type', 'text/plain');
-				res.end('File doesn\'t exist\n');
-			}else{
-				fs.createReadStream(path).pipe(res);
-			}
-		});
 	}
 });
 
