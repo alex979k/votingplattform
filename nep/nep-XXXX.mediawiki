@@ -1,7 +1,7 @@
 <pre>
   NEP: <to be assigned>
-  Title: Decentralized and Anonymous Voting
-  Author: hazal, alex, albert, giancarlo
+  Title: Decentralized Anonymous Voting
+  Author: Hazal, Alex, Albert, Giancarlo
   Type: Standard
   Status: Draft
   Created: 2018-11-25
