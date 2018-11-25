@@ -1,14 +1,13 @@
-# Set up contract()
 
-import Neon, {api} from "@cityofzion/neon-js"
-import { rpc, api, sc, u } from '@cityofzion/neon-js';
+//let Neon = require("@cityofzion/neon-js")
+let Neon, { rpc, api, sc, u } = require('@cityofzion/neon-js')
 
 //const neon_js = require('@cityofzion/neon-js');
 //const Neon = neon_js.default;
 
-    contract = 'dea7b1d8b4ccea3bc6d32aa45b583f418274fb5f'; //TODO:CHANGE
-    networkUrl = 'http://localhost:30333';
-    neoscanUrl = 'http://localhost:4000/api/main_net';
+    contract = '20855b99fbf9a5fe92ec2a1b0a76138d6ee3c590'; //TODO:CHANGE
+    networkUrl = 'http://130.233.87.233:30333';
+    neoscanUrl = 'http://130.233.87.233:4000/api/main_net/v1';
 
     //constructor() {
         // this.getDomainAddress(this.contract, 'asasd').then(res => alert(res), err => console.log(err));
@@ -40,29 +39,35 @@ import { rpc, api, sc, u } from '@cityofzion/neon-js';
     }
 
     function contractCall(operation) {
-	scHash="";
-        /*const sb = Neon.create.scriptBuilder();
-        console.log(u.str2hexstring(domain));
-        sb.emitAppCall(this.contract, 'query', [u.str2hexstring(domain)]);
+	scHash=this.contract;//TODO What is this???
+
+
+        const sb = Neon.create.scriptBuilder();
+        sb.emitAppCall(this.contract, operation, ["a"]);
 
         // Test the script with invokescript
         rpc.Query
             .invokeScript(sb.str)
-            .execute(`http://neo-privnet:30333`)
+            .execute(networkUrl)
             .then(data => {
-                alert(this.parserService.ParseStack(data.result.stack));
+                console.log(data.result);
             })
             .catch(err => {
                 console.log(err);
-            });*/
+            });
+            //.execute(`http://neo-privnet:30333`)
+	    /*
         return rpc.Query.invokeFunction(scHash, operation, []) //3.9.1
             .execute(this.neoscanUrl);
+	    */
     }
+
+//contractCall("getciphers")
 
 const NUM_VALIDATORS=1;
 const MAX_RAND=10000
 
-function async vote(v){
+async function vote(v){
 	randomness=Math.floor(Math.random()*MAX_RAND);
 	publicKey= await getElectionPublicKey();
 	contractInvoke("vote", homoEncrypt(publicKey, v, randomness));
@@ -91,7 +96,7 @@ function reverseGraph(graph){
 }
 		
 
-function async getElectionResults(){
+async function getElectionResults(){
 	votes= await getAllCyphertexts()
 	//web=getWebOfTust()
 	cKeys= await getCitizenKeys()
