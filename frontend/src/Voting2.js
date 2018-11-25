@@ -22,7 +22,7 @@ class Voting2 extends Component {
           </div>
         </div>
         <div class="voting-final-confirm-buttons">
-          <button type="button" class="btn btn-info" onClick={() => this.props.onClick(this.props.viewIndex)}>Vote</button>
+          <button type="button" class="btn btn-info" onClick={() => {this.props.vote(1)}}>Vote</button>
           <br />
           <a href="#"  class="link">Cancel</a>
         </div>
