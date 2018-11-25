@@ -26,8 +26,8 @@ const citizenKeysHash="QmQEf6CESiJQkRB3PdwDPshAzHc8QfdLDS63aFX8K9DsTt";
 async function vote(v){
 	randomness=Math.floor(Math.random()*MAX_RAND);
 	publicKey= await getElectionPublicKey();
-	cyphertext=homoEncrypt(publicKey, v, randomness);
-	execSync( 'encrypt '+String(publicKey)+' '+String(v)+' '+randomness+' | ipfs add -Q > fileHash.txt');
+	cyphertext=homoEncrypt(publicKey, v);
+	execSync( 'VEncrypt '+String(publicKey)+' '+String(v) + '| ipfs add -Q > fileHash.txt');
 	contractInvoke("vote", fs.readFileSync('fileHash.txt', 'utf8'));
 }
 
@@ -52,7 +52,7 @@ function reverseGraph(graph){
 	}
 	return newGraph
 }
-		
+
 
 async function getElectionResults(){
 	votes= await getAllCyphertexts()
