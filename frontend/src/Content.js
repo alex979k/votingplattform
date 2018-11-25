@@ -22,7 +22,8 @@ class Content extends Component {
       super(props)
 
       this.state = {
-        viewIndex: 0
+        viewIndex: 0,
+        vote: null,
       }
   }
 
@@ -34,12 +35,16 @@ class Content extends Component {
     } else {
       this.props.logToggle(false)
     }
+  }
 
+  vote(vote){
+    this.setState({vote: vote});
+    this.changeView(4)
   }
 
   renderView(){
     const ComponentName = VIEWS[this.state.viewIndex] || WelcomeView;
-    return (<ComponentName viewIndex={this.state.viewIndex} onClick={(viewIndex) => this.changeView(viewIndex+1)}/>)
+    return (<ComponentName vote={this.state.vote} viewIndex={this.state.viewIndex} vote={(e) => this.vote(e)} onClick={(viewIndex) => this.changeView(viewIndex+1)}/>)
   }
 
   render() {
