@@ -16,10 +16,8 @@ Neon.rpc.Query.invokeScript(script).execute('http://10.100.54.31:30333').then(re
 
 // ENCRYPTION
 
-const ipfsAPI = require('ipfs-api');
-const ipfs = ipfsAPI('ipfs.infura.io', '5001', {protocol: 'https'})
 const fs = require('fs');
-const { spawnSync } = require( 'child_process' ),
+const { execSync } = require( 'child_process' );
 
 const NUM_VALIDATORS=1;
 const MAX_RAND=10000
@@ -28,16 +26,9 @@ const citizenKeysHash="QmQEf6CESiJQkRB3PdwDPshAzHc8QfdLDS63aFX8K9DsTt";
 async function vote(v){
 	randomness=Math.floor(Math.random()*MAX_RAND);
 	publicKey= await getElectionPublicKey();
-	cyphertext=homoEncrypt(publicKey, v, randomness));
-	spawnSync( 'encrypt '+String(publicKey)+' '+String(v)+' '+randomness+' > cyphertext.txt');
-	let file = fs.readFileSync("cyphertext.txt");
-	let buff = new Buffer(file);
-	ipfs.files.add(buff, function (err, fileHash) {
-        if (err) {
-        	console.log(err);
-        } else {
-		contractInvoke("vote", fileHash);
-      	})
+	cyphertext=homoEncrypt(publicKey, v, randomness);
+	execSync( 'encrypt '+String(publicKey)+' '+String(v)+' '+randomness+' | ipfs add -Q > fileHash.txt');
+	contractInvoke("vote", fs.readFileSync('fileHash.txt', 'utf8'));
 }
 
 function homoEncrypt(publicKey, payload, randomness){ //Fake
@@ -69,25 +60,22 @@ async function getElectionResults(){
 	cKeys= await getCitizenKeys()
 	//filter votes - TODO: Improve by analysing the web of trust for weird patterns that indicate manipulation
 	votes=votes.filter((v)=>v.voter in cKeys)
+	votes.map((v)=>v.cypher).forEach((v, i)=>{
+		execSync('ipfs cat '+ v +" > "+i+".txt")
+	})
 	//compute result
-	encryptedResult=homomorphicSum(votes.map((v)=>v.cypher))
+	encryptedResult= await homomorphicSum(votes.length)
 	result=await getDecryptedResult()
 	publicKey=await getElectionPublicKey();
 	if(!checkEncryption(encryptedResult, result, publicKey)){
-		throw failure;
+		throw 1;
 	}
 	return result;
 }
 
-function homomorphicSum(cyphertexts){ //Fake
-	sum=0
-	pKey=cyphertexts[0].pKey
-	for(c in cyphertexts){
-		if(c.pKey==pKey){
-			sum+=c.value;
-		}
-	}
-	return {pKey: pKey, value: sum, decrypted:0}
+async function homomorphicSum(len){ //Fake
+	execSync("sumEncrypted "+len+" > resultSum.txt");
+	return fs.readFileSync('resultSum.txt', 'utf8');
 }
 
 function checkEncryption(encrypted, decrypted, publicKey){ //Fake
@@ -112,19 +100,18 @@ function getWebOfTust(){
 }
 
 function getCitizenKeys(){ //retrieve from IPFS
-	ipfs.files.get(citizenKeysHash).then((files)=>
-		JSON.parse(files[0].content.toString('utf8'));
-	);
+	execSync('ipfs cat '+ citizenKeysHash+" > cKeys.json")
+	return JSON.parse(fs.readFileSync('cKeys.json', 'utf8'));
 }
 
 // SERVER
 
 const http = require('http');
 const urlParse=require('url').parse;
-const fs=require('fs');
+//const fs=require('fs');
 const body=require('body');
 
-const port = 80;
+const port = 9000;
 
 var votes = [];
 
