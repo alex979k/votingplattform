@@ -17,7 +17,7 @@ If a non-validator node attempts to check this obtained result, he simply calcul
 
 Side note: To increase trust, the validator nodes could be chosen from the prominent nodes in a Web of Trust.
 
-##### Threshold Homomorphic Encryption
+## Threshold Homomorphic Encryption
 Homomorphic encryption is a method to do calculations on cipher texts.
 
 
